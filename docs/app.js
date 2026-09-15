@@ -1,12 +1,13 @@
-import {lawEnforcementPage} from './pages/law-enforcement.js?v=20';
-import {localize,translateText} from './data/zh.js?v=20';
-import {products} from './data/products.js?v=20';
-import {articles} from './data/help.js?v=20';
-import {header,footer} from './components/layout.js?v=20';
-import {link} from './components/ui.js?v=20';
-import {home,homePanel,heroSlide,heroSlides} from './pages/home.js?v=20';
-import {overview,productPage,scene} from './pages/products.js?v=20';
-import {securityPage,compliancePage,aboutPage,helpPage,helpResults,feesPage,assetsPage,assets,downloadPage,legalPage} from './pages/information.js?v=20';
+import {applyLanguage,toggleLanguage} from './data/language.js?v=22';
+import {lawEnforcementPage} from './pages/law-enforcement.js?v=22';
+import {localize,translateText} from './data/zh.js?v=22';
+import {products} from './data/products.js?v=22';
+import {articles} from './data/help.js?v=22';
+import {header,footer} from './components/layout.js?v=22';
+import {link} from './components/ui.js?v=22';
+import {home,homePanel,heroSlide,heroSlides} from './pages/home.js?v=22';
+import {overview,productPage,scene} from './pages/products.js?v=22';
+import {securityPage,compliancePage,aboutPage,helpPage,helpResults,feesPage,assetsPage,assets,downloadPage,legalPage} from './pages/information.js?v=22';
 const root=document.querySelector('#app');
 root.innerHTML=header()+'<main id="main" tabindex="-1"></main>'+footer()+'<dialog id="dialog"><button class="dialog-close" aria-label="Close dialog">×</button><div id="dialog-content"></div></dialog>';
 const main=document.querySelector('main'), dialog=document.querySelector('dialog');
@@ -45,8 +46,8 @@ toggle.addEventListener('mouseenter',()=>{if(!matchMedia('(hover:hover)').matche
 document.querySelector('header').addEventListener('focusout',()=>setTimeout(()=>{if(!document.querySelector('header').contains(document.activeElement))closeMenus()},0));
 const onScroll=()=>{document.querySelector('header').classList.toggle('scrolled',scrollY>55);if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&innerWidth>800)document.querySelector('.hero .phone')?.style.setProperty('--phone-y',Math.min(20,scrollY*.04)+'px');};
 window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('popstate',()=>navigate(location.pathname,false));window.addEventListener('resize',()=>{if(innerWidth>800)closeMobile()});render();onScroll();
-const languageObserver=new MutationObserver(()=>{languageObserver.disconnect();localize();languageObserver.observe(document.body,{childList:true,subtree:true,characterData:true});});
-localize();languageObserver.observe(document.body,{childList:true,subtree:true,characterData:true});
+const languageObserver=new MutationObserver(()=>{languageObserver.disconnect();applyLanguage();languageObserver.observe(document.body,{childList:true,subtree:true,characterData:true});});
+applyLanguage();languageObserver.observe(document.body,{childList:true,subtree:true,characterData:true});
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-convert-direction]');if(!b)return;const demo=b.closest('.convert-demo'),buy=b.dataset.convertDirection==='buy';demo.querySelectorAll('[data-convert-direction]').forEach(t=>t.setAttribute('aria-pressed',String(t===b)));demo.querySelector('[data-convert-pay]').textContent=buy?'法币':'加密货币';demo.querySelector('[data-convert-receive]').textContent=buy?'加密货币':'法币';});
 
@@ -61,3 +62,5 @@ let heroPaused=matchMedia('(prefers-reduced-motion: reduce)').matches, heroLast=
 function selectHero(i){const panel=document.querySelector('#hero-slide');if(!panel)return;panel.innerHTML=heroSlide(i);panel.setAttribute('aria-labelledby','hero-tab-'+i);document.querySelectorAll('[data-hero-tab]').forEach(b=>b.setAttribute('aria-selected',String(+b.dataset.heroTab===i)));heroLast=Date.now();}
 document.addEventListener('click',e=>{const tab=e.target.closest('[data-hero-tab]'),pause=e.target.closest('[data-hero-pause]');if(tab){selectHero(+tab.dataset.heroTab);}if(pause){heroPaused=!heroPaused;heroLast=Date.now();}const b=document.querySelector('[data-hero-pause]');if(b){b.textContent=heroPaused?'开始轮播':'暂停轮播';b.setAttribute('aria-pressed',String(heroPaused));}});
 setInterval(()=>{const section=document.querySelector('.hero-carousel');if(!section){heroLast=Date.now();return;}const b=section.querySelector('[data-hero-pause]');if(b){b.textContent=heroPaused?'开始轮播':'暂停轮播';b.setAttribute('aria-pressed',String(heroPaused));}if(heroPaused||document.hidden||section.matches(':hover')||section.contains(document.activeElement)||section.getBoundingClientRect().bottom<innerHeight*.4){heroLast=Date.now();return;}if(Date.now()-heroLast>=6000){const current=section.querySelector('[data-hero-tab][aria-selected="true"]');selectHero((+current.dataset.heroTab+1)%heroSlides.length);}},250);
+
+document.addEventListener('click',e=>{if(e.target.closest('[data-language]')){languageObserver.disconnect();toggleLanguage();languageObserver.observe(document.body,{childList:true,subtree:true,characterData:true});}});

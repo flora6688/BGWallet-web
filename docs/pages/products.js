@@ -1,5 +1,5 @@
-import {products} from '../data/products.js?v=20';
-import {link,button,visual,phone,card,cta} from '../components/ui.js?v=20';
+import {products} from '../data/products.js?v=22';
+import {link,button,visual,phone,card,cta} from '../components/ui.js?v=22';
 const tiles=(items)=>`<div class="grid three">${items.map(([t,d],i)=>`<article class="info-card"><span class="eyebrow">0${i+1}</span><h3>${t}</h3><p>${d}</p></article>`).join('')}</div>`;
 export function overview(){return `<section class="page-title"><p class="eyebrow">THE BG WALLET ECOSYSTEM</p><h1>One wallet.<br><span>Built for more.</span></h1><p>Digital finance meets everyday life.</p></section><section class="section product-grid">${products.map(p=>link(p.id,`<div class="product-card-art"><span>${p.icon}</span><div class="mini-ui"><small>BG WALLET</small><h3>${p.name}</h3><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div><div class="product-card-copy"><small>${p.group}</small><h3>${p.name}</h3><p>${p.desc}</p><b>Explore <span>→</span></b></div>`,'product-card')).join('')}</section>${cta()}`}
 export function productPage(id){if(id==='esim')return esimPlan();const p=products.find(p=>p.id===id);let content='';
