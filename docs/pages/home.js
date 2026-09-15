@@ -1,5 +1,5 @@
-import {link,button,visual,card,cta} from '../components/ui.js?v=20';
-import {security} from '../data/products.js?v=20';
+import {link,button,visual,card,cta} from '../components/ui.js?v=22';
+import {security} from '../data/products.js?v=22';
 export const homeTabs=[
 ['安全存放','资产集中存放，\n随时清楚掌握。','收到 USDT 等受支持的数字资产后，在 BG Wallet 集中查看余额与收款记录。了解账户安全设置，让每一次使用都有据可查。','wallet'],
 ['稳健增值','为资产的未来，\n多想一步。','通过活期与定期理财，按资金使用计划选择产品，清楚查看持仓、收益与赎回规则。','grow'],
